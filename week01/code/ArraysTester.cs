@@ -1,11 +1,15 @@
-public static class ArraysTester {
+using System.Net.Http.Headers;
+
+public static class ArraysTester
+{
     /// <summary>
     /// Entry point for the tests
     /// </summary>
-    public static void Run() {
+    public static void Run()
+    {
         // Sample Test Cases (may not be comprehensive)
         Console.WriteLine("\n=========== PROBLEM 1 TESTS ===========");
-        double[] multiples = MultiplesOf(7, 5);
+        List<double> multiples = MultiplesOf(7, 5);
         Console.WriteLine($"<double>{{{string.Join(',', multiples)}}}"); // <double>{7, 14, 21, 28, 35}
         multiples = MultiplesOf(1.5, 10);
         Console.WriteLine($"<double>{{{string.Join(',', multiples)}}}"); // <double>{1.5, 3.0, 4.5, 6.0, 7.5, 9.0, 10.5, 12.0, 13.5, 15.0}
@@ -32,16 +36,33 @@ public static class ArraysTester {
     /// integer greater than 0.
     /// </summary>
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
-    private static double[] MultiplesOf(double number, int length)
+    private static List<double> MultiplesOf(double number, int length)
     {
         // TODO Problem 1 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return new double[0]; // replace this return statement with your own
+        //Step 1: Create a new array that can hold 'double' type numbers.
+        //Step 2: Add a for loop that loops through all of the integers between 1 and the 'length' that is
+        //specified in the second parameter of this function.
+        //Step 3: Within the for loop, multiply the 'number' provided in the first parameter of this function
+        //and multiply it by the integer ('i') that is being used in each loop and store that in a new 
+        //'double' type variable.
+        //Step 4: Add this variable to the array you created in Step 1 and end the loop.
+        //Step 5: Return the array of doubles.
+
+        List<double> multiples = new List<double> { };
+
+        for (int i = 1; i <= length; i++)
+        {
+            double product = number * i;
+            multiples.Add(product);
+        }
+
+        return multiples; // replace this return statement with your own
     }
-    
+
     /// <summary>
     /// Rotate the 'data' to the right by the 'amount'.  For example, if the data is 
     /// <c>&lt;List&gt;{1, 2, 3, 4, 5, 6, 7, 8, 9}</c> and an amount is 3 then the list returned should be 
@@ -56,6 +77,23 @@ public static class ArraysTester {
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        //Step 1: Create a new variable that subtracts the 'amount' given in the second parameter of the
+        //function from the number of items in the 'data' array given in the first parameter of the function.
+        //Step 2: Create a new array of integers that will hold all 'data' items within a range of indexes. Use 
+        //the GetRange() method on the 'data' array to accomplish this. The starting index will be 0 and the 
+        //count will be the variable you created in Step 1. 
+        //Step 3: Remove all the items that appear in the array you created in Step 2 from the 'data' array. Use
+        //the RemoveRange() method on the 'data' array to accomplish this. The starting index will be 0 and the 
+        //count will be the variable you created in Step 1.
+        //Step 4: Add all of the items in the array you created in Step 2 to the end of the 'data' array. Use
+        //the AddRange() method on the 'data' array to accomplish this. The array will be the same one you 
+        //created in Step 2.
+
+        int count = data.Count - amount;
+        List<int> rotation = data.GetRange(0, count);
+        data.RemoveRange(0, count);
+        data.AddRange(rotation);
 
     }
 }
