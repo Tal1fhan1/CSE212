@@ -15,7 +15,7 @@
         _queue.Add(newNode);
     }
 
-    public String Dequeue()
+    public string Dequeue()
     {
         if (_queue.Count == 0) // Verify the queue is not empty
         {
