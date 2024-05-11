@@ -1,7 +1,10 @@
+using System.Collections.Immutable;
 using System.Text.Json;
 
-public static class SetsAndMapsTester {
-    public static void Run() {
+public static class SetsAndMapsTester
+{
+    public static void Run()
+    {
         // Problem 1: Find Pairs with Sets
         Console.WriteLine("\n=========== Finding Pairs TESTS ===========");
         DisplayPairs(new[] { "am", "at", "ma", "if", "fi" });
@@ -29,7 +32,7 @@ public static class SetsAndMapsTester {
         // Problem 2: Degree Summary
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== Census TESTS ===========");
-        Console.WriteLine(string.Join(", ", SummarizeDegrees("census.txt")));
+        Console.WriteLine(string.Join(", ", SummarizeDegrees("../../../census.txt")));
         // Results may be in a different order:
         // <Dictionary>{[Bachelors, 5355], [HS-grad, 10501], [11th, 1175],
         // [Masters, 1723], [9th, 514], [Some-college, 7291], [Assoc-acdm, 1067],
@@ -107,10 +110,30 @@ public static class SetsAndMapsTester {
     /// that there were no duplicates) and therefore should not be displayed.
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
-    private static void DisplayPairs(string[] words) {
+    private static void DisplayPairs(string[] words)
+    {
         // To display the pair correctly use something like:
         // Console.WriteLine($"{word} & {pair}");
         // Each pair of words should displayed on its own line.
+        HashSet<string> set = words.ToHashSet();
+        foreach (string word in set)
+        {
+            var firstLetter = word[0].ToString();
+            var secondLetter = word[1].ToString();
+
+            var pair = secondLetter + firstLetter;
+            if (pair == word)
+            {
+                set.Remove(pair);
+            }
+            if (set.Contains(pair))
+            {
+                set.Remove(word);
+                set.Remove(pair);
+                Console.WriteLine($"{word} & {pair}");
+            }
+
+        }
     }
 
     /// <summary>
@@ -127,10 +150,17 @@ public static class SetsAndMapsTester {
     /// #############
     /// # Problem 2 #
     /// #############
-    private static Dictionary<string, int> SummarizeDegrees(string filename) {
+    private static Dictionary<string, int> SummarizeDegrees(string filename)
+    {
         var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename)) {
+        foreach (var line in File.ReadLines(filename))
+        {
             var fields = line.Split(",");
+            if (degrees.ContainsKey(fields[3]) == false)
+            {
+                degrees.Add(fields[3], Int32.Parse(fields[2]));
+            }
+
             // Todo Problem 2 - ADD YOUR CODE HERE
         }
 
@@ -156,15 +186,59 @@ public static class SetsAndMapsTester {
     /// #############
     /// # Problem 3 #
     /// #############
-    private static bool IsAnagram(string word1, string word2) {
+    private static bool IsAnagram(string word1, string word2)
+    {
         // Todo Problem 3 - ADD YOUR CODE HERE
-        return false;
+        string lower1 = word1.ToLower();
+        string lower2 = word2.ToLower();
+
+        var newWord1 = lower1.Replace(" ", "");
+        var newWord2 = lower2.Replace(" ", "");
+
+        var summary1 = new Dictionary<char, int>();
+        var summary2 = new Dictionary<char, int>();
+
+        foreach (var letter in newWord1)
+        {
+            if (summary1.ContainsKey(letter) == false)
+            {
+                summary1[letter] = 1;
+            }
+            else
+            {
+                summary1[letter] += 1;
+            }
+        }
+        foreach (var letter in newWord2)
+        {
+            if (summary2.ContainsKey(letter) == false)
+            {
+                summary2[letter] = 1;
+            }
+            else
+            {
+                summary2[letter] += 1;
+            }
+        }
+
+        var sortedSummary1 = string.Join(", ", summary1.ToImmutableSortedDictionary());
+        var sortedSummary2 = string.Join(", ", summary2.ToImmutableSortedDictionary());
+
+        if (sortedSummary1 == sortedSummary2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
     /// Sets up the maze dictionary for problem 4
     /// </summary>
-    private static Dictionary<ValueTuple<int, int>, bool[]> SetupMazeMap() {
+    private static Dictionary<ValueTuple<int, int>, bool[]> SetupMazeMap()
+    {
         Dictionary<ValueTuple<int, int>, bool[]> map = new() {
             { (1, 1), new[] { false, true, false, true } },
             { (1, 2), new[] { false, true, true, false } },
@@ -220,7 +294,8 @@ public static class SetsAndMapsTester {
     /// https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
     /// 
     /// </summary>
-    private static void EarthquakeDailySummary() {
+    private static void EarthquakeDailySummary()
+    {
         const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
         using var client = new HttpClient();
         using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -230,6 +305,10 @@ public static class SetsAndMapsTester {
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
+        foreach (var feature in featureCollection.Features)
+        {
+            Console.WriteLine($"{feature.Properties.Place} - {feature.Properties.Mag.ToString("F")}");
+        }
 
         // TODO:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 

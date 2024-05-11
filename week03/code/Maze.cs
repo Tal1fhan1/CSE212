@@ -14,12 +14,14 @@
 /// If there is a wall, then display "Can't go that way!".  If there is no wall,
 /// then the 'currX' and 'currY' values should be changed.
 /// </summary>
-public class Maze {
+public class Maze
+{
     private readonly Dictionary<ValueTuple<int, int>, bool[]> _mazeMap;
     private int _currX = 1;
     private int _currY = 1;
 
-    public Maze(Dictionary<ValueTuple<int, int>, bool[]> mazeMap) {
+    public Maze(Dictionary<ValueTuple<int, int>, bool[]> mazeMap)
+    {
         _mazeMap = mazeMap;
     }
 
@@ -28,35 +30,72 @@ public class Maze {
     /// Check to see if you can move left.  If you can, then move.  If you
     /// can't move, then display "Can't go that way!"
     /// </summary>
-    public void MoveLeft() {
+    public void MoveLeft()
+    {
         // FILL IN CODE
+        if (_currX - 1 == 0)
+        {
+            Console.WriteLine("Can't go that way!");
+        }
+        else
+        {
+            _currX--;
+        }
     }
 
     /// <summary>
     /// Check to see if you can move right.  If you can, then move.  If you
     /// can't move, then display "Can't go that way!"
     /// </summary>
-    public void MoveRight() {
+    public void MoveRight()
+    {
         // FILL IN CODE
+        if (_currX + 1 == 7)
+        {
+            Console.WriteLine("Can't go that way!");
+        }
+        else
+        {
+            _currX++;
+        }
     }
 
     /// <summary>
     /// Check to see if you can move up.  If you can, then move.  If you
     /// can't move, then display "Can't go that way!"
     /// </summary>
-    public void MoveUp() {
+    public void MoveUp()
+    {
         // FILL IN CODE
+        if (_currY - 1 == 0)
+        {
+            Console.WriteLine("Can't go that way!");
+        }
+        else
+        {
+            _currY--;
+        }
     }
 
     /// <summary>
     /// Check to see if you can move down.  If you can, then move.  If you
     /// can't move, then display "Can't go that way!"
     /// </summary>
-    public void MoveDown() {
+    public void MoveDown()
+    {
         // FILL IN CODE
+        if (_currY + 1 == 7)
+        {
+            Console.WriteLine("Can't go that way!");
+        }
+        else
+        {
+            _currY++;
+        }
     }
 
-    public void ShowStatus() {
+    public void ShowStatus()
+    {
         Console.WriteLine($"Current location (x={_currX}, y={_currY})");
     }
 }
