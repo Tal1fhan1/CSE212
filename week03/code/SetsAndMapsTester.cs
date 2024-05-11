@@ -156,12 +156,13 @@ public static class SetsAndMapsTester
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
+
+            // Todo Problem 2 - ADD YOUR CODE HERE
+
             if (degrees.ContainsKey(fields[3]) == false)
             {
                 degrees.Add(fields[3], Int32.Parse(fields[2]));
             }
-
-            // Todo Problem 2 - ADD YOUR CODE HERE
         }
 
         return degrees;
@@ -305,14 +306,17 @@ public static class SetsAndMapsTester
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
-        foreach (var feature in featureCollection.Features)
-        {
-            Console.WriteLine($"{feature.Properties.Place} - {feature.Properties.Mag.ToString("F")}");
-        }
 
         // TODO:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to print out each place a earthquake has happened today and its magitude.
+
+        foreach (var feature in featureCollection.Features)
+        {
+            Console.WriteLine($"{feature.Properties.Place} - {feature.Properties.Mag.ToString("F")}");
+        }
+
+
     }
 }
