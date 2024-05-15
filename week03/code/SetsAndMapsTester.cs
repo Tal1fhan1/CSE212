@@ -32,7 +32,7 @@ public static class SetsAndMapsTester
         // Problem 2: Degree Summary
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== Census TESTS ===========");
-        Console.WriteLine(string.Join(", ", SummarizeDegrees("../../../census.txt")));
+        Console.WriteLine(string.Join(", ", SummarizeDegrees("census.txt")));
         // Results may be in a different order:
         // <Dictionary>{[Bachelors, 5355], [HS-grad, 10501], [11th, 1175],
         // [Masters, 1723], [9th, 514], [Some-college, 7291], [Assoc-acdm, 1067],
@@ -152,17 +152,32 @@ public static class SetsAndMapsTester
     /// #############
     private static Dictionary<string, int> SummarizeDegrees(string filename)
     {
+        // Todo Problem 2 - ADD YOUR CODE HERE
         var degrees = new Dictionary<string, int>();
+        var names = new List<string>();
+
+
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
 
-            // Todo Problem 2 - ADD YOUR CODE HERE
-
-            if (degrees.ContainsKey(fields[3]) == false)
+            if (names.Contains(fields[3]) == false)
             {
-                degrees.Add(fields[3], Int32.Parse(fields[2]));
+                names.Add(fields[3]);
             }
+        }
+        foreach (var name in names)
+        {
+            int num_of_people = 0;
+            foreach (var line in File.ReadLines(filename))
+            {
+                var fields = line.Split(",");
+                if (fields[3] == name)
+                {
+                    num_of_people++;
+                }
+            }
+            degrees.Add(name, num_of_people);
         }
 
         return degrees;
