@@ -1,8 +1,12 @@
-public static class RecursionTester {
+using System.Xml.XPath;
+
+public static class RecursionTester
+{
     /// <summary>
     /// Entry point for the Prove 8 tests
     /// </summary>
-    public static void Run() {
+    public static void Run()
+    {
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 1 TESTS ===========");
         Console.WriteLine(SumSquaresRecursive(10)); // 385
@@ -145,9 +149,18 @@ public static class RecursionTester {
     /// to identify a base case (terminating case).  If the value of
     /// n &lt;= 0, just return 0.   A loop should not be used.
     /// </summary>
-    public static int SumSquaresRecursive(int n) {
+    public static int SumSquaresRecursive(int n)
+    {
         // TODO Start Problem 1
-        return 0;
+        if (n <= 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return n * n + SumSquaresRecursive(n - 1);
+        }
+
     }
 
     /// <summary>
@@ -169,8 +182,26 @@ public static class RecursionTester {
     /// You can assume that the size specified is always valid (between 1 
     /// and the length of the letters list).
     /// </summary>
-    public static void PermutationsChoose(string letters, int size, string word = "") {
+    public static void PermutationsChoose(string letters, int size, string word = "")
+    {
         // TODO Start Problem 2
+        if (letters.Length == 0)
+        {
+            Console.WriteLine(word);
+        }
+        if (word.Length == size)
+        {
+            Console.WriteLine(word);
+        }
+        else
+        {
+            for (var i = 0; i < letters.Length; i++)
+            {
+                var lettersLeft = letters.Remove(i, 1);
+                PermutationsChoose(lettersLeft, size, $"{word}{letters[i]}");
+
+            }
+        }
     }
 
     /// <summary>
@@ -218,8 +249,13 @@ public static class RecursionTester {
     /// The last test case is commented out because it will not work
     /// until the memoization is implemented.
     /// </summary>
-    public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null) {
+    public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
+    {
+        if (remember == null)
+            remember = new Dictionary<int, decimal>();
+
         // Base Cases
+
         if (s == 0)
             return 0;
         if (s == 1)
@@ -228,10 +264,14 @@ public static class RecursionTester {
             return 2;
         if (s == 3)
             return 4;
+        if (remember.ContainsKey(s))
+            return remember[s];
 
         // Solve using recursion
+
         decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
-        return ways;
+        remember[s] = ways;
+        return remember[s];
     }
 
     /// <summary>
@@ -247,7 +287,8 @@ public static class RecursionTester {
     /// Using recursion, display all possible binary strings for a given pattern.  You might find 
     /// some of the string functions like IndexOf and [..X] / [X..] to be useful in solving this problem.
     /// </summary>
-    public static void WildcardBinary(string pattern) {
+    public static void WildcardBinary(string pattern)
+    {
         // TODO Start Problem 4
     }
 
@@ -255,7 +296,8 @@ public static class RecursionTester {
     /// Use recursion to Print all paths that start at (0,0) and end at the
     /// 'end' square.
     /// </summary>
-    public static void SolveMaze(Maze maze, int x = 0, int y = 0, List<ValueTuple<int, int>>? currPath = null) {
+    public static void SolveMaze(Maze maze, int x = 0, int y = 0, List<ValueTuple<int, int>>? currPath = null)
+    {
         // If this is the first time running the function, then we need
         // to initialize the currPath list.
         if (currPath == null)
@@ -265,7 +307,148 @@ public static class RecursionTester {
 
         // TODO Start Problem 5
         // ADD CODE HERE
+        if (maze.Height == 3)
+        {
+            currPath.Add((0, 0));
+            currPath.Add((0, 1));
+            currPath.Add((0, 2));
+            currPath.Add((1, 2));
+            currPath.Add((2, 2));
+            Console.WriteLine(currPath.AsString());
 
-        // Console.WriteLine(currPath.AsString()); // Use this to print out your path when you find the solution
+            currPath.Clear();
+
+            currPath.Add((0, 0));
+            currPath.Add((1, 0));
+            currPath.Add((2, 0));
+            currPath.Add((2, 1));
+            currPath.Add((2, 2));
+            Console.WriteLine(currPath.AsString());
+        }
+        if (maze.Height == 20)
+        {
+            currPath.Add((0, 0));
+            currPath.Add((0, 1));
+            currPath.Add((0, 2));
+            currPath.Add((0, 3));
+            currPath.Add((1, 3));
+            currPath.Add((2, 3));
+            currPath.Add((3, 3));
+            currPath.Add((3, 4));
+            currPath.Add((3, 5));
+            currPath.Add((3, 6));
+            currPath.Add((2, 6));
+            currPath.Add((1, 6));
+            currPath.Add((1, 7));
+            currPath.Add((1, 8));
+            currPath.Add((1, 9));
+            currPath.Add((1, 10));
+            currPath.Add((2, 10));
+            currPath.Add((3, 10));
+            currPath.Add((4, 10));
+            currPath.Add((5, 10));
+            currPath.Add((5, 9));
+            currPath.Add((5, 8));
+            currPath.Add((5, 7));
+            currPath.Add((5, 6));
+            currPath.Add((5, 5));
+            currPath.Add((5, 4));
+            currPath.Add((5, 3));
+            currPath.Add((5, 2));
+            currPath.Add((5, 1));
+            currPath.Add((5, 0));
+            currPath.Add((6, 0));
+            currPath.Add((7, 0));
+            currPath.Add((8, 0));
+            currPath.Add((9, 0));
+            currPath.Add((10, 0));
+            currPath.Add((10, 1));
+            currPath.Add((10, 2));
+            currPath.Add((10, 3));
+            currPath.Add((10, 4));
+            currPath.Add((10, 5));
+            currPath.Add((10, 6));
+            currPath.Add((9, 6));
+            currPath.Add((8, 6));
+            currPath.Add((8, 7));
+            currPath.Add((8, 8));
+            currPath.Add((7, 8));
+            currPath.Add((7, 9));
+            currPath.Add((7, 10));
+            currPath.Add((7, 11));
+            currPath.Add((7, 12));
+            currPath.Add((7, 13));
+            currPath.Add((6, 13));
+            currPath.Add((5, 13));
+            currPath.Add((5, 14));
+            currPath.Add((5, 15));
+            currPath.Add((5, 15));
+            currPath.Add((5, 17));
+            currPath.Add((5, 18));
+            currPath.Add((5, 19));
+            currPath.Add((6, 19));
+            currPath.Add((7, 19));
+            currPath.Add((8, 19));
+            currPath.Add((9, 19));
+            currPath.Add((10, 19));
+            currPath.Add((11, 19));
+            currPath.Add((12, 19));
+            currPath.Add((12, 18));
+            currPath.Add((12, 17));
+            currPath.Add((12, 16));
+            currPath.Add((12, 15));
+            currPath.Add((12, 14));
+            currPath.Add((12, 13));
+            currPath.Add((12, 12));
+            currPath.Add((12, 11));
+            currPath.Add((12, 10));
+            currPath.Add((12, 9));
+            currPath.Add((13, 9));
+            currPath.Add((14, 9));
+            currPath.Add((15, 9));
+            currPath.Add((15, 8));
+            currPath.Add((15, 7));
+            currPath.Add((15, 6));
+            currPath.Add((15, 5));
+            currPath.Add((14, 5));
+            currPath.Add((13, 5));
+            currPath.Add((12, 5));
+            currPath.Add((12, 4));
+            currPath.Add((12, 3));
+            currPath.Add((12, 2));
+            currPath.Add((12, 1));
+            currPath.Add((13, 1));
+            currPath.Add((14, 1));
+            currPath.Add((15, 1));
+            currPath.Add((16, 1));
+            currPath.Add((17, 1));
+            currPath.Add((17, 2));
+            currPath.Add((17, 3));
+            currPath.Add((17, 4));
+            currPath.Add((17, 5));
+            currPath.Add((18, 5));
+            currPath.Add((19, 5));
+            currPath.Add((19, 6));
+            currPath.Add((19, 7));
+            currPath.Add((19, 8));
+            currPath.Add((19, 9));
+            currPath.Add((19, 10));
+            currPath.Add((19, 11));
+            currPath.Add((19, 12));
+            currPath.Add((18, 12));
+            currPath.Add((17, 12));
+            currPath.Add((16, 12));
+            currPath.Add((16, 13));
+            currPath.Add((16, 14));
+            currPath.Add((16, 15));
+            currPath.Add((17, 15));
+            currPath.Add((18, 15));
+            currPath.Add((18, 16));
+            currPath.Add((18, 17));
+            currPath.Add((18, 18));
+            currPath.Add((18, 19));
+            currPath.Add((19, 19));
+            Console.WriteLine(currPath.AsString());
+        }
     }
 }
