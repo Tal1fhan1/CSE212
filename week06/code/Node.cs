@@ -51,7 +51,14 @@ public class Node
                 }
                 else
                 {
-                    Left.Contains(value);
+                    if (Left!.Left!.Data == value)
+                    {
+                        return true;
+                    }
+                    else if (Left!.Right!.Data == value)
+                    {
+                        return true;
+                    }
                 }
             }
         }
