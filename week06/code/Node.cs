@@ -36,14 +36,14 @@ public class Node
             return true;
         }
 
-        if (value < Data)
+        else if (value < Data)
         {
             if (Left is null)
             {
                 return false;
             }
 
-            else if (Left is not null)
+            else
             {
                 if (Left.Data == value)
                 {
@@ -63,7 +63,7 @@ public class Node
                 return false;
             }
 
-            else if (Right is not null)
+            else
             {
                 if (Right.Data == value)
                 {
@@ -71,7 +71,14 @@ public class Node
                 }
                 else
                 {
-                    Right.Contains(value);
+                    if (Right!.Left!.Data == value)
+                    {
+                        return true;
+                    }
+                    else if (Right!.Right!.Data == value)
+                    {
+                        return true;
+                    }
                 }
             }
         }
